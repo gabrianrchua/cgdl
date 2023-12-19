@@ -1,17 +1,19 @@
-const sqlite3 = require('sqlite3').verbose();
-//const prompt = require('prompt-sync')({sigint: true});
+const sqlite3 = require('sqlite3')
 const express = require('express');
 const { stdin, stdout } = require('process');
 const readline = require('readline');
 
-const app = express();
-const api = express();
+const app = express(); // at '/' - base level, also serves angular package
+const api = express(); // at '/api' - serves API requests
+const dl = express(); // at '/dl' - exclusively serves files from directory specified at FILE_DIR
 const rl = readline.createInterface(stdin, stdout);
 const PORT = 8080;
 const GOOD_REQ_RE = /^[a-z0-9]+$/gi;
+const FILE_DIR = "./files/";
 
 app.use(express.json());
 app.use("/api", api);
+app.use("/dl", dl);
 
 let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {
 	if (err) {
@@ -199,6 +201,28 @@ api.get("/categories/:name", (req, res) => {
 		res.send({
 			"status": "error",
 			"err": "Invalid or malformed request"
+		});
+	}
+});
+
+dl.get("/", (req, res) => {
+	const path = req.query.path;
+	const options = {
+		dotfiles: 'deny',
+	}
+	if (path) {
+		res.download(FILE_DIR + path, path.slice(path.lastIndexOf("/")+1), options, err => {
+			if (err) {
+				res.send({
+					"status": "error",
+					"err": err.errno + ": " + err.code
+				});
+			}
+		});
+	} else {
+		res.send({
+			"status": "error",
+			"err": "Please provide a path to the file (?path=...)"
 		});
 	}
 });
