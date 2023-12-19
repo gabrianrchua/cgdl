@@ -1,3 +1,6 @@
+# added for cgdl
+*.db
+
 # Logs
 logs
 *.log
