@@ -1,8 +1,12 @@
 const sqlite3 = require('sqlite3').verbose();
 //const prompt = require('prompt-sync')({sigint: true});
 const express = require('express');
+const { stdin, stdout } = require('process');
+const readline = require('readline');
+
 const app = express();
 const api = express();
+const rl = readline.createInterface(stdin, stdout);
 const PORT = 8080;
 const GOOD_REQ_RE = /^[a-z0-9]+$/gi;
 
@@ -34,6 +38,7 @@ let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {
 function initApp() {
 	app.listen(PORT, () => {
 		console.log("Listening on port " + PORT);
+		userInput();
 	});
 }
 
@@ -80,13 +85,29 @@ function testQuery(database) {
 	});
 }
 
-/*let userin = ""
-while (userin != "exit") {
-	userin = prompt("db> ").toLowerCase();
-	if (userin == "exit") {
-		terminate();
-	}
-}*/
+rl.on("SIGINT", () => {
+	terminate();
+});
+
+function userInput() {
+	rl.question("admin> ", resp => {
+		resp = resp.toLowerCase().split(" ");
+		if (resp.length == 0) {
+			userInput();
+			return;
+		}
+		if (resp[0] == "exit") {
+			terminate();
+			return;
+		} else if (resp[0] == "help") {
+			console.log(`List of commands:
+create <name> <description> - create a new category
+add <name> <description> <category> <link> - add item to a category listing
+exit - stop server and exit`);
+		}
+		userInput();
+	});
+}
 
 function terminate(exitcode = 0) {
 	db.close(err => {
