@@ -47,7 +47,7 @@ function initDb(database) {
 	database.exec(`
 	CREATE TABLE Categories
 	(
-	Name varchar(32),
+	Name varchar(32) UNIQUE,
 	Description varchar(255)
 	);
 	INSERT INTO Categories (Name, Description)
@@ -91,7 +91,7 @@ rl.on("SIGINT", () => {
 
 function userInput() {
 	rl.question("admin> ", resp => {
-		resp = resp.toLowerCase().split(" ");
+		resp = resp.split(" ");
 		if (resp.length == 0) {
 			userInput();
 			return;
@@ -101,11 +101,44 @@ function userInput() {
 			return;
 		} else if (resp[0] == "help") {
 			console.log(`List of commands:
-create <name> <description> - create a new category
-add <name> <description> <category> <link> - add item to a category listing
-exit - stop server and exit`);
+  create <name> <description> - create a new category
+  add <name> <category> <link> <description> - add item to a category listing
+  exit - stop server and exit`);
+  			userInput();
+		} else if (resp[0] == "create") {
+			if (resp.length < 3) {
+				console.log("Invalid input, expected 'create <name> <description>'");
+				userInput();
+			} else {
+				db.exec("INSERT INTO Categories (Name, Description)\nVALUES(\"" + resp[1] + "\", \"" + resp.slice(2).join(" ") + "\");\nCREATE TABLE " + resp[1] + "\n(\nName varchar(32),\nDescription varchar(255),\nLink varchar(64)\n);", (err) => {
+					if (err) {
+						console.log("Error occurred while creating category:");
+						console.log(err);
+					} else {
+						console.log("Operation was successful");
+					}
+					userInput();
+				});
+			}
+		} else if (resp[0] == "add") {
+			if (resp.length < 5) {
+				console.log("Invalid input, expected 'add <name> <category> <link> <description>'");
+				userInput();
+			} else {
+				db.run("INSERT INTO " + resp[2] + " (Name, Description, Link)\nVALUES(\"" + resp[1] + "\", \"" + resp.slice(4).join(" ") + "\", \"" + resp[3] + "\");", (err) => {
+					if (err) {
+						console.log("Error occurred while adding item to category:");
+						console.log(err);
+					} else {
+						console.log("Operation was successful");
+					}
+					userInput();
+				});
+			}
+		} else {
+			console.log("Invalid command, type 'help' for a list of commands");
+			userInput();
 		}
-		userInput();
 	});
 }
 
