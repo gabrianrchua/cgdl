@@ -14,6 +14,7 @@ const FILE_DIR = "./files/";
 app.use(express.json());
 app.use("/api", api);
 app.use("/dl", dl);
+app.use(express.static("srv")); // everything from angular package
 
 let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {
 	if (err) {
@@ -160,9 +161,9 @@ function terminate(exitcode = 0) {
 	});
 }
 
-app.get("/", (req, res) => {
-	res.send("APP home");
-});
+/*app.get("/", (req, res) => {
+	res.sendFile(path.join(__dirname, "/srv/index.html"));
+});*/
 
 api.get("/", (req, res) => {
 	res.send({

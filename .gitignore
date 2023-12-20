@@ -1,6 +1,7 @@
 # added for cgdl
 *.db
 files/
+build/
 
 # Logs
 logs
