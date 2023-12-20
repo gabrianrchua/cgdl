@@ -23,13 +23,8 @@ export class HomeComponent {
   getCategories() {
     this.http.get<CategoriesResponse>("http://localhost:80/api/categories").subscribe(data => {
       this.categories = data.result;
-      this.showCategories();
+      console.log(this.categories);
     });
-  }
-
-  showCategories() {
-    console.log("got categories");
-    console.log(this.categories);
   }
 }
 

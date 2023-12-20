@@ -2,7 +2,7 @@
 <p class="centered">Welcome to the CG Download Center, exclusively for use on the Chua local area network. Feel free to download the shareware hosted on this site for your own personal use.</p>
 <div *ngIf="this.categories">
     <div *ngFor="let item of categories">
-        <a mat-raised-button color="primary" class="categorylink centered" [routerLink]="'/' + item.Name">
+        <a mat-raised-button color="primary" class="categorylink centered" [routerLink]="'/' + item.Name" [state]="{description: item.Description}">
             <h2>{{item.Name}}</h2>
             <span>{{item.Description}}</span>
         </a>

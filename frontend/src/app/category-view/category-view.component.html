@@ -1,6 +1,13 @@
-<h1 class="title">Category title</h1>
-<p class="description">Category description Category description Category description Category description Category description Category description Category description </p>
-<a mat-raised-button color="primary" class="categorylink" href="https://google.com">
-    <h2>Placeholder title <mat-icon class="downloadicon">download</mat-icon></h2>
-    <span>Placeholder description Placeholder description Placeholder description Placeholder description Placeholder description Placeholder description</span>
-</a>
+<div *ngIf="categoryData && categoryData.items">
+    <h1 class="centered">{{categoryData.categoryName}}</h1>
+    <p class="centered">{{categoryData.categoryDescription}}</p>
+    <div *ngFor="let item of categoryData.items">
+        <a mat-raised-button color="primary" class="categorylink" [href]="'/dl' + item.Link">
+            <h2>{{item.Name}} <mat-icon class="downloadicon">download</mat-icon></h2>
+            <span>{{item.Description}}</span>
+        </a>
+    </div>
+</div>
+<div *ngIf="!categoryData || !categoryData.items">
+    <mat-spinner class="centered" style="margin: auto"></mat-spinner>
+</div>
