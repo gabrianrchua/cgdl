@@ -21,7 +21,7 @@ export class HomeComponent {
   categories: Category[] | undefined
   
   getCategories() {
-    this.http.get<CategoriesResponse>("http://localhost:80/api/categories").subscribe(data => {
+    this.http.get<CategoriesResponse>("/api/categories").subscribe(data => {
       this.categories = data.result;
       console.log(this.categories);
     });

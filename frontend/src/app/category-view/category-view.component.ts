@@ -31,7 +31,7 @@ export class CategoryViewComponent {
   }
 
   getItems() {
-    let url: string = "http://localhost:80/api/categories/" + this.categoryData?.categoryName;
+    let url: string = "/api/categories/" + this.categoryData?.categoryName;
     this.http.get<ItemsResponse>(url).subscribe(data => {
       if (this.categoryData) {
         this.categoryData.items = data.result;
