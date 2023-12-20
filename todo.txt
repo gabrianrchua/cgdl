@@ -1,0 +1,2 @@
+- allow removing categories and items
+- edit item?
