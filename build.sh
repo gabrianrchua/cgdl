@@ -2,6 +2,7 @@
 
 mkdir -p build/srv
 mkdir -p build/files
+rm -r build/srv/*
 echo "Bulding frontend..."
 cd frontend
 ng build
