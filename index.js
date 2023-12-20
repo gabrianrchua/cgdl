@@ -7,7 +7,7 @@ const app = express(); // at '/' - base level, also serves angular package
 const api = express(); // at '/api' - serves API requests
 const dl = express(); // at '/dl' - exclusively serves files from directory specified at FILE_DIR
 const rl = readline.createInterface(stdin, stdout);
-const PORT = 8080;
+const PORT = 80;
 const GOOD_REQ_RE = /^[a-z0-9]+$/gi;
 const FILE_DIR = "./files/";
 
