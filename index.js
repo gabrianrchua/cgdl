@@ -2,6 +2,7 @@ const sqlite3 = require('sqlite3')
 const express = require('express');
 const { stdin, stdout } = require('process');
 const readline = require('readline');
+const morgan = require('morgan');
 
 const app = express(); // at '/' - base level, also serves angular package
 const api = express(); // at '/api' - serves API requests
@@ -11,6 +12,7 @@ const PORT = 80;
 const GOOD_REQ_RE = /^[a-z0-9]+$/gi;
 const FILE_DIR = "./files/";
 
+app.use(morgan("combined", { stream: stdout }));
 app.use(express.json());
 app.use("/api", api);
 app.use("/dl", dl);
