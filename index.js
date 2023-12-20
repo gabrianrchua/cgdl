@@ -104,7 +104,11 @@ function userInput() {
 		} else if (resp[0] == "help") {
 			console.log(`List of commands:
   create <name> <description> - create a new category
+    new name must be alphanumeric only
   add <name> <category> <link> <description> - add item to a category listing
+    name must be alphanumeric only
+    category must match already existing category
+    link must be relative to /dl directory with preceding slash, e.g. /subdir/file.zip
   exit - stop server and exit`);
   			userInput();
 		} else if (resp[0] == "create") {
