@@ -2,10 +2,11 @@
     <h1 class="centered">{{categoryData.categoryName}}</h1>
     <p class="centered">{{categoryData.categoryDescription}}</p>
     <div *ngFor="let item of categoryData.items">
-        <a mat-raised-button color="primary" class="categorylink" [href]="'/dl' + item.Link">
+        <a mat-raised-button color="primary" class="categorylink" [href]="'/dl?path=' + item.Link">
             <h2>{{item.Name}} <mat-icon class="downloadicon">download</mat-icon></h2>
             <span>{{item.Description}}</span>
         </a>
+        <br><br>
     </div>
 </div>
 <div *ngIf="!categoryData || !categoryData.items">
