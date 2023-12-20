@@ -13,7 +13,7 @@ echo "Copying backend files to build/..."
 cp index.js build/index.js
 cp run.sh build/run.sh
 chmod +x build/run.sh
-#echo "Compressing build to build.zip..."
-#zip -r build.zip build
-#mv build.zip build/build.zip
-echo "Done! Run cgdl by running ./run.sh in build/."
+echo "Compressing build to build.zip..."
+zip -r build.zip build
+mv build.zip build/build.zip
+echo "Done! Run cgdl by running ./run.sh in build/. Packaged in build.zip."
